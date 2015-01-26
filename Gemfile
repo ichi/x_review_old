@@ -32,7 +32,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-doc'
   gem 'pry-stack_explorer'
-  gem 'tapp'
+  gem 'tapp-awesome_print'
 end
 
 # Debug
@@ -50,7 +50,7 @@ end
 group :test do
   gem 'rspec-rails', '~> 3.0', group: :development
   gem 'rspec-its'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', require: false
   gem 'fuubar'
   gem 'factory_girl_rails', group: :development
   gem 'faker', group: :development

@@ -32,6 +32,8 @@
 #  * zeus: 'zeus rspec' (requires the server to be started separately)
 #  * 'just' rspec: 'rspec'
 
+require 'active_support/inflector'
+
 guard :rspec, cmd: "bin/rspec" do
   require "guard/rspec/dsl"
   dsl = Guard::RSpec::Dsl.new(self)
@@ -55,8 +57,9 @@ guard :rspec, cmd: "bin/rspec" do
 
   watch(rails.controllers) do |m|
     [
-      rspec.spec.("routing/#{m[1]}_routing"),
       rspec.spec.("controllers/#{m[1]}_controller"),
+      rspec.spec.("routing/#{m[1]}_routing"),
+      rspec.spec.("requests/#{m[1]}"),
       rspec.spec.("acceptance/#{m[1]}")
     ]
   end
@@ -67,11 +70,16 @@ guard :rspec, cmd: "bin/rspec" do
   watch(rails.app_controller)  { "#{rspec.spec_dir}/controllers" }
 
   # Capybara features specs
-  watch(rails.view_dirs)     { |m| rspec.spec.("features/#{m[1]}") }
+  # watch(rails.view_dirs)     { |m| rspec.spec.("features/#{m[1]}") }
 
-  # Turnip features and steps
-  watch(%r{^spec/acceptance/(.+)\.feature$})
-  watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$}) do |m|
-    Dir[File.join("**/#{m[1]}.feature")][0] || "spec/acceptance"
+  # FactoryGirl changes
+  watch(%r{^#{rspec.spec_dir}/factories/(.+)\.rb$}) do |m|
+    [
+      rspec.spec.("models/#{m[1].singularize}"),
+      rspec.spec.("controllers/#{m[1]}_controller"),
+      rspec.spec.("routing/#{m[1]}_routing"),
+      rspec.spec.("requests/#{m[1]}"),
+      rspec.spec.("acceptance/#{m[1]}")
+    ]
   end
 end
