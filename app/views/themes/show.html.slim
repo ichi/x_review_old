@@ -1,0 +1,12 @@
+p#notice = notice
+
+p
+  strong Name:
+  = @theme.name
+p
+  strong Private:
+  = @theme.private
+
+= link_to 'Edit', edit_theme_path(@theme)
+'|
+= link_to 'Back', themes_path
