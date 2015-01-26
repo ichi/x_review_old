@@ -66,6 +66,7 @@ GEM
       execjs
     coffee-script-source (1.8.0)
     daemons (1.1.9)
+    database_rewinder (0.4.2)
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
     erubis (2.7.0)
@@ -285,6 +286,7 @@ DEPENDENCIES
   brakeman
   bullet
   coffee-rails (~> 4.1.0)
+  database_rewinder
   factory_girl_rails
   faker
   fuubar

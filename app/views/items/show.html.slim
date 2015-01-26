@@ -1,0 +1,15 @@
+p#notice = notice
+
+p
+  strong Name:
+  = @item.name
+p
+  strong Description:
+  = @item.description
+p
+  strong Theme:
+  = @item.theme
+
+= link_to 'Edit', edit_theme_item_path(@theme, @item)
+'|
+= link_to 'Back', theme_items_path(@theme)

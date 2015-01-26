@@ -3,5 +3,4 @@ FactoryGirl.define do
     name { Faker::Name.name }
     private false
   end
-
 end
