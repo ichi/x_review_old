@@ -5,7 +5,7 @@ RSpec.describe "Items", :type => :request do
 
   describe "GET /themes/1/items" do
     it "works! (now write some real specs)" do
-      get theme_items_path(theme_id: theme.to_param)
+      get theme_items_path(theme)
       expect(response).to have_http_status(200)
     end
   end

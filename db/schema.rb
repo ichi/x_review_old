@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150126161257) do
+ActiveRecord::Schema.define(version: 20150126174611) do
 
   create_table "items", force: :cascade do |t|
     t.string   "name",        null: false
@@ -22,6 +22,16 @@ ActiveRecord::Schema.define(version: 20150126161257) do
   end
 
   add_index "items", ["theme_id"], name: "index_items_on_theme_id"
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer  "score",      default: 0, null: false
+    t.text     "text",                   null: false
+    t.integer  "item_id",                null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "reviews", ["item_id"], name: "index_reviews_on_item_id"
 
   create_table "themes", force: :cascade do |t|
     t.string   "name",                       null: false

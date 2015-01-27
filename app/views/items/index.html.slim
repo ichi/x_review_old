@@ -16,9 +16,9 @@ table
         td = item.name
         td = item.description
         td = item.theme
-        td = link_to 'Show', theme_item_path(@theme, item)
-        td = link_to 'Edit', edit_theme_item_path(@theme, item)
-        td = link_to 'Destroy', theme_item_path(@theme, item), data: {:confirm => 'Are you sure?'}, :method => :delete
+        td = link_to 'Show', item
+        td = link_to 'Edit', edit_item_path(item)
+        td = link_to 'Destroy', item, data: {:confirm => 'Are you sure?'}, :method => :delete
 
 br
 
