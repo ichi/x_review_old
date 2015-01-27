@@ -3,7 +3,7 @@ class CreateItems < ActiveRecord::Migration
     create_table :items do |t|
       t.string :name, null: false
       t.text :description, null: false
-      t.belongs_to :theme, index: true, null: false
+      t.belongs_to :theme, index: true
 
       t.timestamps null: false
     end
