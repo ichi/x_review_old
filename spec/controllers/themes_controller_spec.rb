@@ -83,7 +83,7 @@ RSpec.describe ThemesController, :type => :controller do
       it "updates the requested theme" do
         put :update, {:id => theme.to_param, :theme => new_attributes}, valid_session
         theme.reload
-        expect(theme.attributes.symbolize_keys.slice(*new_attributes.keys)).to eq(new_attributes)
+        expect(theme).to have_attributes(new_attributes)
       end
 
       it "assigns the requested theme as @theme" do

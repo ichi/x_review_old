@@ -83,7 +83,7 @@ RSpec.describe GroupsController, :type => :controller do
       it "updates the requested group" do
         put :update, {:id => group.to_param, :group => new_attributes}, valid_session
         group.reload
-        expect(group.attributes.symbolize_keys.slice(*new_attributes.keys)).to eq new_attributes
+        expect(group).to have_attributes(new_attributes)
       end
 
       it "assigns the requested group as @group" do

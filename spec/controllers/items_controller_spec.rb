@@ -84,7 +84,7 @@ RSpec.describe ItemsController, :type => :controller do
       it "updates the requested item" do
         put :update, {:id => item.to_param, :item => new_attributes}, valid_session
         item.reload
-        expect(item.attributes.symbolize_keys.slice(*new_attributes.keys)).to eq new_attributes
+        expect(item).to have_attributes(new_attributes)
       end
 
       it "assigns the requested item as @item" do

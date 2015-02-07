@@ -84,7 +84,7 @@ RSpec.describe ReviewsController, :type => :controller do
       it "updates the requested review" do
         put :update, {:id => review.to_param, :review => new_attributes}, valid_session
         review.reload
-        expect(review.attributes.symbolize_keys.slice(*new_attributes.keys)).to eq(new_attributes)
+        expect(review).to have_attributes(new_attributes)
       end
 
       it "assigns the requested review as @review" do
