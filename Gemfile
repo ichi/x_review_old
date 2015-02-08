@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 # Framework
 gem 'rails', '4.2.0'
 
-
 # DB
 gem 'sqlite3'
 
@@ -15,6 +14,9 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 # gem 'jbuilder', '~> 2.0'
 gem 'slim-rails'
+
+# Models
+gem 'active_hash'
 
 # Server
 gem 'thin'
@@ -32,7 +34,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-doc'
   gem 'pry-stack_explorer'
-  gem 'tapp'
+  gem 'tapp-awesome_print'
 end
 
 # Debug
@@ -50,9 +52,10 @@ end
 group :test do
   gem 'rspec-rails', '~> 3.0', group: :development
   gem 'rspec-its'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', require: false
   gem 'fuubar'
   gem 'factory_girl_rails', group: :development
   gem 'faker', group: :development
   gem 'guard-rspec', require: false
+  gem 'database_rewinder'
 end
