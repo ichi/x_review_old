@@ -1,0 +1,20 @@
+{
+  "name": "x_review",
+  "version": "0.0.1",
+  "homepage": "https://github.com/ichi/x_review",
+  "authors": [
+    "ichi <ichi.ttht.1@gmail.com>"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "riot": "~2.0.8",
+    "lodash": "~3.2.0"
+  }
+}
