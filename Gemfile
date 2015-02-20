@@ -12,7 +12,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.1.0'
 # gem 'therubyracer', platforms: :ruby # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'jquery-rails'
-# gem 'jbuilder', '~> 2.0'
+gem 'jbuilder', '~> 2.0'
 gem 'slim-rails'
 
 # Models
@@ -57,5 +57,6 @@ group :test do
   gem 'factory_girl_rails', group: :development
   gem 'faker', group: :development
   gem 'guard-rspec', require: false
+  gem 'guard-riotjs', require: false, github: 'ichi/guard-riotjs'
   gem 'database_rewinder'
 end

@@ -10,6 +10,9 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require riot/riot.min
+//= require lodash/lodash.min
 //= require jquery
-//= require jquery_ujs
-//= require_tree .
+//= require ./config
+//= require_tree ./riot
+//= require ./app
