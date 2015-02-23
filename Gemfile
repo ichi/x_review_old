@@ -18,6 +18,11 @@ gem 'slim-rails'
 # Models
 gem 'active_hash'
 
+# Auth
+gem 'devise'
+gem 'omniauth-twitter'
+
+
 # Server
 gem 'thin'
 
