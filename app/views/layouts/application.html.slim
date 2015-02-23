@@ -6,6 +6,22 @@ html
     = csrf_meta_tags
 
   body
-    == yield
+    header.global
+      .site_title XReview
+      nav.header
+        ul
+          - if user_signed_in?
+            li
+              = current_user.name
+              = link_to '[Sign out]', sign_out_path
+          - else
+            li = link_to '[Sign in with Twitter]', sign_in_path(provider: :twitter)
+
+    .container
+      - unless flash.empty?
+        - flash.each do |type, msg|
+          .flash(class="#{type}") = msg
+
+      == yield
 
     = javascript_include_tag 'application'
