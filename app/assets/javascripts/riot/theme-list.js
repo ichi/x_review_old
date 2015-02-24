@@ -44,7 +44,8 @@ this.create = (function(_this) {
 
 this.startEdit = (function(_this) {
   return function(ev) {
-    return _this.editing = true;
+    _this.editing = true;
+    return false;
   };
 })(this);
 
@@ -93,7 +94,8 @@ this.remove = (function(_this) {
 
 this.startEdit = (function(_this) {
   return function(ev) {
-    return _this.editing = true;
+    _this.editing = true;
+    return false;
   };
 })(this);
 

@@ -33,6 +33,7 @@ theme-list
 
     @startEdit = (ev)=>
       @editing = true
+      false
 
     @doneEdit = (ev)=>
       @editing = false
@@ -75,6 +76,7 @@ theme-item
 
     @startEdit = (ev)=>
       @editing = true
+      false
 
     @doneEdit = (ev)=>
       @editing = false

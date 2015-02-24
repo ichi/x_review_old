@@ -1,4 +1,5 @@
 class Api::ThemesController < Api::ApplicationController
+  before_action :authenticate_user!, only: %i(create update destroy)
   before_action :set_theme, only: [:show, :edit, :update, :destroy]
 
   # GET /api/themes
