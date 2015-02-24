@@ -13,7 +13,7 @@ class Api::ThemesController < Api::ApplicationController
 
   # POST /api/themes
   def create
-    @theme = Theme.new(theme_params)
+    @theme = Theme.new(theme_params.merge creator: current_user)
 
     if @theme.save
       render :show, status: :created
