@@ -1,7 +1,8 @@
 theme-list
   theme-item(each='{theme, i in themes}' theme='{ theme }' list_view='{ parent }' key='theme_{ theme.id }')
-  a(href='#' onclick='{ startEdit }' hide='{ editing }') 追加
-  theme-form(on_submit='{ create }' show='{ editing }')
+  .add(show='{ opts.creatable }')
+    a(href='#' onclick='{ startEdit }' hide='{ editing }') 追加
+    theme-form(on_submit='{ create }' show='{ editing }')
   
   script(type='text/coffeescript').
     @editing = false
@@ -46,9 +47,9 @@ theme-item
     .show(hide='{ editing }')
       .name name: { theme.name }
       .private private: { theme.private ? '✔' : '✗' }
-      a(href='#' onclick='{ startEdit }') 変更
+      a(show='{ theme.editable }' href='#' onclick='{ startEdit }') 変更
     theme-form(theme='{ theme }' on_submit='{ patch }' show='{ editing }')
-    .control
+    .control(show='{ theme.editable }')
       form(onsubmit='{ remove }')
         button 削除
 

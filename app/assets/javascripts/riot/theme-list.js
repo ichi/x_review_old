@@ -1,5 +1,5 @@
 
-riot.tag('theme-list', '<theme-item each="{theme, i in themes}" theme="{ theme }" list_view="{ parent }" key="theme_{ theme.id }"></theme-item><a href="#" onclick="{ startEdit }" hide="{ editing }">追加</a> <theme-form on_submit="{ create }" show="{ editing }"></theme-form>', function(opts) {this.editing = false;
+riot.tag('theme-list', '<theme-item each="{theme, i in themes}" theme="{ theme }" list_view="{ parent }" key="theme_{ theme.id }"></theme-item> <div show="{ opts.creatable }" class="add"><a href="#" onclick="{ startEdit }" hide="{ editing }">追加</a> <theme-form on_submit="{ create }" show="{ editing }"></theme-form> </div>', function(opts) {this.editing = false;
 
 this.on('mount', (function(_this) {
   return function(ev) {
@@ -57,7 +57,7 @@ this.doneEdit = (function(_this) {
 })(this);
 
 });
-riot.tag('theme-item', '<div class="theme"> <div class="id">id: { theme.id }</div> <div hide="{ editing }" class="show"> <div class="name">name: { theme.name }</div> <div class="private">private: { theme.private ? \'✔\' : \'✗\' }</div><a href="#" onclick="{ startEdit }">変更</a> </div> <theme-form theme="{ theme }" on_submit="{ patch }" show="{ editing }"></theme-form> <div class="control"> <form onsubmit="{ remove }"> <button>削除</button> </form> </div> </div>', function(opts) {this.theme = opts.theme, this.list_view = opts.list_view;
+riot.tag('theme-item', '<div class="theme"> <div class="id">id: { theme.id }</div> <div hide="{ editing }" class="show"> <div class="name">name: { theme.name }</div> <div class="private">private: { theme.private ? \'✔\' : \'✗\' }</div><a show="{ theme.editable }" href="#" onclick="{ startEdit }">変更</a> </div> <theme-form theme="{ theme }" on_submit="{ patch }" show="{ editing }"></theme-form> <div show="{ theme.editable }" class="control"> <form onsubmit="{ remove }"> <button>削除</button> </form> </div> </div>', function(opts) {this.theme = opts.theme, this.list_view = opts.list_view;
 
 this.editing = false;
 
