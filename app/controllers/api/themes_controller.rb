@@ -1,4 +1,5 @@
 class Api::ThemesController < Api::ApplicationController
+  before_action :authenticate_user!, only: %i(create update destroy)
   before_action :set_theme, only: [:show, :edit, :update, :destroy]
 
   # GET /api/themes
@@ -12,7 +13,7 @@ class Api::ThemesController < Api::ApplicationController
 
   # POST /api/themes
   def create
-    @theme = Theme.new(theme_params)
+    @theme = Theme.new(theme_params.merge creator: current_user)
 
     if @theme.save
       render :show, status: :created
@@ -44,6 +45,6 @@ class Api::ThemesController < Api::ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def theme_params
-      params.require(:theme).permit(:name, :private)
+      params.require(:theme).permit(:name, :private, :group_id)
     end
 end
