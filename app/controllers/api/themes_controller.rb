@@ -45,6 +45,6 @@ class Api::ThemesController < Api::ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def theme_params
-      params.require(:theme).permit(:name, :private)
+      params.require(:theme).permit(:name, :private, :group_id)
     end
 end

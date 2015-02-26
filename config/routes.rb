@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   devise_for :users, controllers: {omniauth_callbacks: 'users/omniauth_callbacks'}
   devise_scope :user do
     # get 'sign_in', :to => 'users/sessions#new', :as => :new_user_session
@@ -17,8 +18,13 @@ Rails.application.routes.draw do
   resources :users
 
   namespace :api, format: :json do
-    resources :themes, except: %i(new edit)
-    # resources :groups
+    resources :themes, only: %i(index show create update destroy)
+
+    # 自分の
+    resource :user, only: %i() do
+      resources :groups, only: %i(index show), controller: 'user/groups'
+    end
+
     #
     # resources :themes do
     #   resources :items, shallow: true do

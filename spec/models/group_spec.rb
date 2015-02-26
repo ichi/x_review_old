@@ -4,6 +4,11 @@ RSpec.describe Group, :type => :model do
   it{ is_expected.to have_many(:themes) }
   it{ is_expected.to have_many(:users).through(:groups_users) }
 
+  describe 'scopes' do
+    xdescribe '.by_user' do
+    end
+  end
+
   describe '#role_of' do
     let(:user){ create(:user) }
     let(:admin){ create(:user) }

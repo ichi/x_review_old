@@ -1,11 +1,11 @@
 
-riot.tag('theme-list', '<theme-item each="{theme, i in themes}" theme="{ theme }" list_view="{ parent }" key="theme_{ theme.id }"></theme-item> <div show="{ opts.creatable }" class="add"><a href="#" onclick="{ startEdit }" hide="{ editing }">追加</a> <theme-form on_submit="{ create }" show="{ editing }"></theme-form> </div>', function(opts) {this.editing = false;
+riot.tag('theme-list', '<theme-item each="{theme, i in themes}" theme="{ theme }" list_view="{ parent }" key="theme_{ theme.id }" groups_url="{ opts.groups_url }"></theme-item> <div show="{ opts.creatable }" class="add"><a href="#" onclick="{ startEdit }" hide="{ editing }">追加</a> <theme-form on_submit="{ create }" show="{ editing }" groups_url="{ opts.groups_url }"></theme-form> </div>', function(opts) {this.editing = false;
 
 this.on('mount', (function(_this) {
   return function(ev) {
     var ajax;
     ajax = $.ajax({
-      url: opts.url,
+      url: opts.themes_url,
       type: 'GET'
     });
     return ajax.done(function(data, status, xhr) {
@@ -30,7 +30,7 @@ this.create = (function(_this) {
     var ajax, data;
     data = $(ev.target).serialize();
     ajax = $.ajax({
-      url: opts.url,
+      url: opts.themes_url,
       type: 'POST',
       data: data
     });
@@ -57,7 +57,7 @@ this.doneEdit = (function(_this) {
 })(this);
 
 });
-riot.tag('theme-item', '<div class="theme"> <div class="id">id: { theme.id }</div> <div hide="{ editing }" class="show"> <div class="name">name: { theme.name }</div> <div class="private">private: { theme.private ? \'✔\' : \'✗\' }</div><a show="{ theme.editable }" href="#" onclick="{ startEdit }">変更</a> </div> <theme-form theme="{ theme }" on_submit="{ patch }" show="{ editing }"></theme-form> <div show="{ theme.editable }" class="control"> <form onsubmit="{ remove }"> <button>削除</button> </form> </div> </div>', function(opts) {this.theme = opts.theme, this.list_view = opts.list_view;
+riot.tag('theme-item', '<div class="theme"> <div class="id">id: { theme.id }</div> <div hide="{ editing }" class="show"> <div class="name">name: { theme.name }</div> <div class="group">group: { theme.group.name }</div> <div class="private">private: { theme.private ? \'✔\' : \'✗\' }</div><a show="{ theme.editable }" href="#" onclick="{ startEdit }">変更</a> </div> <theme-form theme="{ theme }" on_submit="{ patch }" show="{ editing }" groups_url="{ opts.groups_url }"></theme-form> <div show="{ theme.editable }" class="control"> <form onsubmit="{ remove }"> <button>削除</button> </form> </div> </div>', function(opts) {this.theme = opts.theme, this.list_view = opts.list_view;
 
 this.editing = false;
 
@@ -107,14 +107,32 @@ this.doneEdit = (function(_this) {
 })(this);
 
 });
-riot.tag('theme-form', '<form onsubmit="{ onsubmit }"> <div class="name">name: <input name="theme[name]" type="text" value="{ theme.name }"> </div> <div class="private">private: <input name="theme[private]" type="hidden" value="0"> <input name="theme[private]" type="checkbox" value="1" __checked="{ theme.private }"> </div> <button>決定</button><a href="#" onclick="{ cancelEdit }">キャンセル</a> </form>', function(opts) {this.theme = opts.theme;
+riot.tag('theme-form', '<form onsubmit="{ onsubmit }"> <div class="name">name: <input name="theme[name]" type="text" value="{ theme.name }"> </div> <div class="group">group: <select name="theme[group_id]"> <option value="">所属グループ</option> <option each="{ group in groups }" value="{ group.id }" __selected="{ group.id == parent.theme.group_id }">{ group.name }</option> </select> </div> <div class="private">private: <input name="theme[private]" type="hidden" value="0"> <input name="theme[private]" type="checkbox" value="1" __checked="{ theme.private }"> </div> <button>決定</button><a href="#" onclick="{ cancelEdit }">キャンセル</a> </form>', function(opts) {var is_new;
+
+this.theme = opts.theme;
+
+is_new = !this.theme;
 
 this.theme || (this.theme = {});
+
+this.on('mount', (function(_this) {
+  return function(ev) {
+    var ajax;
+    ajax = $.ajax({
+      url: opts.groups_url,
+      type: 'GET'
+    });
+    return ajax.done(function(data, status, xhr) {
+      _this.groups = data;
+      return _this.update();
+    });
+  };
+})(this));
 
 this.onsubmit = (function(_this) {
   return function(ev) {
     return opts.on_submit(ev).done(function(data, status, xhr) {
-      _this.theme = data;
+      _this.theme = is_new ? {} : data;
       _this.resetEdit();
       return _this.parent.doneEdit();
     });
@@ -123,7 +141,11 @@ this.onsubmit = (function(_this) {
 
 this.resetEdit = (function(_this) {
   return function(ev) {
-    return _this['theme[name]'].value = _this.theme.name || '';
+    _this['theme[name]'].value = _this.theme.name || '';
+    _this['theme[private]'].checked = !!_this.theme["private"];
+    return _.each(_this['theme[group_id]'].children, function(o) {
+      return o.selected = o.value && parseInt(o.value) === _this.theme.group_id;
+    });
   };
 })(this);
 
