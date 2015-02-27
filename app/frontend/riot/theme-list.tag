@@ -1,11 +1,12 @@
 theme-list
-  theme-item(each='{theme, i in themes}' theme='{ theme }' list_view='{ parent }' key='theme_{ theme.id }' groups_url='{ opts.groups_url }')
-  .add(show='{ opts.creatable }')
+  theme-item(each='{theme, i in themes}' theme='{ theme }' list_view='{ parent }' key='theme_{ theme.id }' groups_url='{ opts.groups_url }' signed_in='{ signed_in }')
+  .add(show='{ signed_in }')
     a(href='#' onclick='{ startEdit }' hide='{ editing }') 追加
-    theme-form(on_submit='{ create }' show='{ editing }' groups_url='{ opts.groups_url }')
+    theme-form(on_submit='{ create }' show='{ editing }' groups_url='{ opts.groups_url }' signed_in='{ signed_in }')
   
   script(type='text/coffeescript').
     @editing = false
+    @signed_in = parseInt opts.signed_in
     
     @on 'mount', (ev)=>
       ajax = $.ajax
@@ -48,7 +49,7 @@ theme-item
       .group group: { theme.group.name }
       .private private: { theme.private ? '✔' : '✗' }
       a(show='{ theme.editable }' href='#' onclick='{ startEdit }') 変更
-    theme-form(theme='{ theme }' on_submit='{ patch }' show='{ editing }' groups_url='{ opts.groups_url }')
+    theme-form(theme='{ theme }' on_submit='{ patch }' show='{ editing }' groups_url='{ opts.groups_url }' sigend_in='{ opts.signed_in }')
     .control(show='{ theme.editable }')
       form(onsubmit='{ remove }')
         button 削除
@@ -104,6 +105,8 @@ theme-form
     is_new = !@theme
     
     @theme ||= {}
+    
+    return opts.signed_in
     
     @on 'mount', (ev)=>
       ajax = $.ajax

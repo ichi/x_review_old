@@ -9,12 +9,10 @@ RSpec.describe Group, :type => :model do
     end
   end
 
-  describe '#role_of' do
+  describe '#role_of, #admin?, #user?' do
     let(:user){ create(:user) }
     let(:admin){ create(:user) }
-    let(:group){ create(:group,
-      groups_users: [ create(:groups_user, user: user, role: Role::USER),
-                      create(:groups_user, user: admin, role: Role::ADMIN)]) }
+    let(:group){ create(:group, with_users: [{user: user, role: Role::USER}, {user: admin, role: Role::ADMIN}]) }
 
     it 'userのroleはuser' do
       expect(group.role_of(user)).to be_user
@@ -22,6 +20,16 @@ RSpec.describe Group, :type => :model do
 
     it 'adminのroleはadmin' do
       expect(group.role_of(admin)).to be_admin
+    end
+
+    it 'adminは user? == false, admin? == true' do
+      expect(group).to_not be_user(admin)
+      expect(group).to be_admin(admin)
+    end
+
+    it 'user user? == true, admin? == false' do
+      expect(group).to be_user(user)
+      expect(group).to_not be_admin(user)
     end
   end
 end

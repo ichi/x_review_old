@@ -5,6 +5,7 @@ gem 'rails', '4.2.0'
 
 # DB
 gem 'sqlite3'
+# gem 'pg'
 
 # Assets
 gem 'sass-rails', '~> 5.0'

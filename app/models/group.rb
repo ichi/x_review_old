@@ -9,6 +9,14 @@ class Group < ActiveRecord::Base
     presence: true
 
   def role_of(user)
-    groups_users.find_by(user: user).role
+    groups_users.find_by(user: user).try :role
+  end
+
+  Role.all.each do |role|
+    define_method "#{role.name}?" do |user|
+      user_role = role_of user
+      return false unless user_role
+      user_role.send "#{role.name}?"
+    end
   end
 end
