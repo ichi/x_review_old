@@ -4,7 +4,7 @@ class Api::ThemesController < Api::ApplicationController
 
   # GET /api/themes
   def index
-    @themes = Theme.visible_by_user current_user
+    @themes = Theme.visible_by_user(current_user).where(private: false)
   end
 
   # GET /api/themes/1
