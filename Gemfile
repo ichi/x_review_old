@@ -62,6 +62,5 @@ group :test do
   gem 'factory_girl_rails', group: :development
   gem 'faker', group: :development
   gem 'guard-rspec', require: false
-  gem 'guard-riotjs', require: false, github: 'ichi/guard-riotjs'
   gem 'database_rewinder'
 end

@@ -83,7 +83,3 @@ guard :rspec, cmd: "bin/rspec" do
     ]
   end
 end
-
-guard :riotjs, cmd: 'riot --template jade' do
-  watch(%r{^app/frontend/riot/.+\.tag})
-end
