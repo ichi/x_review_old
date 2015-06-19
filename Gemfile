@@ -17,6 +17,7 @@ gem 'slim-rails'
 
 # Models
 gem 'active_hash'
+gem 'annotate', github: 'ctran/annotate_models'
 
 # Auth
 gem 'devise'
