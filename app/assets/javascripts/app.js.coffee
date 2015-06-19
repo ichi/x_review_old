@@ -1,1 +1,0 @@
-riot.mount 'theme-list'

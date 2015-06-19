@@ -37,8 +37,5 @@ module XReview
       g.view_specs false
       g.helper false
     end
-
-    # bower
-    config.assets.paths << Rails.root.join('bower_components')
   end
 end
