@@ -60,10 +60,13 @@ end
 group :test do
   gem 'rspec-rails', '~> 3.0', group: :development
   gem 'rspec-its'
+  gem 'rspec-collection_matchers'
+  gem 'rspec-json_matcher'
   gem 'shoulda-matchers', require: false
   gem 'fuubar'
   gem 'factory_girl_rails', group: :development
   gem 'faker', group: :development
   gem 'guard-rspec', require: false
   gem 'database_rewinder'
+  gem 'autodoc'
 end

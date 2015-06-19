@@ -25,8 +25,9 @@ class Theme < ActiveRecord::Base
 
 
   def editable?(user)
+    return false unless user
     return true if creator && creator == user
     return true if group && group.users && group.users.exists?(id: user.id)
-    return false
+    false
   end
 end
