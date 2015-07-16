@@ -1,6 +1,7 @@
 class Api::ThemesController < Api::ApplicationController
   before_action :authenticate_user!, only: %i(create update destroy)
-  before_action :set_theme, only: [:show, :edit, :update, :destroy]
+  before_action :set_theme, only: %i(show update destroy)
+  before_action :check_editable, only: %i(update destroy)
 
   # GET /api/themes
   def index
@@ -46,5 +47,9 @@ class Api::ThemesController < Api::ApplicationController
     # Only allow a trusted parameter "white list" through.
     def theme_params
       params.require(:theme).permit(:name, :private, :group_id)
+    end
+
+    def check_editable
+      forbidden 'You cannot edit this theme.' unless @theme.editable?(current_user)
     end
 end

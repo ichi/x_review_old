@@ -4,6 +4,10 @@ class Api::ApplicationController < ApplicationController
 
   # @override Devise::Controllers::Helpers#:authenticate_user!
   def authenticate_user!
-    render json: {'error' => 'authentication error'}, status: :forbidden unless current_user
+    forbidden unless current_user
+  end
+
+  def forbidden(err_msg = 'authentication error')
+    render json: {'error' => err_msg}, status: :forbidden
   end
 end

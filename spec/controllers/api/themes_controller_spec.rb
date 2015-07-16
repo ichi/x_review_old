@@ -1,15 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe Api::ThemesController, :type => :controller do
-  let(:theme){ create(:theme) }
-
-  let(:valid_attributes) {
-    attributes_for(:theme)
-  }
-
-  let(:invalid_attributes) {
-    valid_attributes.merge(name: '')
-  }
+  let(:current_user){ create(:user) }
+  let(:group){ create(:group) }
+  let(:theme){ create(:theme, group: group, creator: current_user) }
+  let(:other_theme){ create(:theme) }
+  let(:valid_attributes){ attributes_for(:theme, group_id: group.id) }
+  let(:invalid_attributes){ valid_attributes.merge(name: '') }
 
   let(:valid_session) { {} }
 
@@ -31,7 +28,7 @@ RSpec.describe Api::ThemesController, :type => :controller do
     context 'ログインしている' do
       login_user
 
-      describe "with valid params" do
+      context "with valid params" do
         it "creates a new Theme" do
           expect {
             jpost :create, {:theme => valid_attributes}, valid_session
@@ -50,7 +47,7 @@ RSpec.describe Api::ThemesController, :type => :controller do
         end
       end
 
-      describe "with invalid params" do
+      context "with invalid params" do
         it "assigns a newly created but unsaved theme as @theme" do
           jpost :create, {:theme => invalid_attributes}, valid_session
           expect(assigns(:theme)).to be_a_new(Theme)
@@ -70,46 +67,51 @@ RSpec.describe Api::ThemesController, :type => :controller do
   end
 
   describe "PUT update" do
+    let(:new_attributes) { attributes_for(:theme) }
+
     context 'ログインしている' do
       login_user
 
-      let(:new_attributes) {
-        attributes_for(:theme)
-      }
+      context 'themeがeditableなとき' do
+        context "with valid params" do
+          it "updates the requested theme" do
+            jput :update, {:id => theme.to_param, :theme => new_attributes}, valid_session
+            theme.reload
+            expect(theme).to have_attributes(new_attributes)
+          end
 
-      describe "with valid params" do
-        it "updates the requested theme" do
-          jput :update, {:id => theme.to_param, :theme => new_attributes}, valid_session
-          theme.reload
-          expect(theme).to have_attributes(new_attributes)
+          it "assigns the requested theme as @theme" do
+            jput :update, {:id => theme.to_param, :theme => new_attributes}, valid_session
+            expect(assigns(:theme)).to eq(theme)
+          end
+
+          it 'okなstatusを返す' do
+            jput :update, {:id => theme.to_param, :theme => new_attributes}, valid_session
+            expect(response).to have_http_status :ok
+          end
         end
 
-        it "assigns the requested theme as @theme" do
-          jput :update, {:id => theme.to_param, :theme => valid_attributes}, valid_session
-          expect(assigns(:theme)).to eq(theme)
-        end
+        context "with invalid params" do
+          it "assigns the theme as @theme" do
+            jput :update, {:id => theme.to_param, :theme => invalid_attributes}, valid_session
+            expect(assigns(:theme)).to eq(theme)
+          end
 
-        it 'okなstatusを返す' do
-          jput :update, {:id => theme.to_param, :theme => valid_attributes}, valid_session
-          expect(response).to have_http_status :ok
+          it 'unprocessable_entityなstatusを返す' do
+            jput :update, {:id => theme.to_param, :theme => invalid_attributes}, valid_session
+            expect(response).to have_http_status :unprocessable_entity
+          end
         end
       end
 
-      describe "with invalid params" do
-        it "assigns the theme as @theme" do
-          jput :update, {:id => theme.to_param, :theme => invalid_attributes}, valid_session
-          expect(assigns(:theme)).to eq(theme)
-        end
-
-        it 'unprocessable_entityなstatusを返す' do
-          jput :update, {:id => theme.to_param, :theme => invalid_attributes}, valid_session
-          expect(response).to have_http_status :unprocessable_entity
-        end
+      context 'themeがeditableでないとき' do
+        before{ jput :update, {:id => other_theme.to_param, :theme => new_attributes}, valid_session }
+        its(:response){ is_expected.to have_http_status :forbidden }
       end
     end
 
     context 'ログインしていない' do
-      before{ jput :update, {:id => theme.to_param, :theme => valid_attributes}, valid_session }
+      before{ jput :update, {:id => theme.to_param, :theme => new_attributes}, valid_session }
       its(:response){ is_expected.to have_http_status :forbidden }
     end
   end
@@ -120,15 +122,22 @@ RSpec.describe Api::ThemesController, :type => :controller do
     context 'ログインしている' do
       login_user
 
-      it "destroys the requested theme" do
-        expect {
+      context 'themeがeditableなとき' do
+        it "destroys the requested theme" do
+          expect {
+            jdelete :destroy, {:id => theme.to_param}, valid_session
+          }.to change(Theme, :count).by(-1)
+        end
+
+        it 'no_contentなstatusを返す' do
           jdelete :destroy, {:id => theme.to_param}, valid_session
-        }.to change(Theme, :count).by(-1)
+          expect(response).to have_http_status :no_content
+        end
       end
 
-      it 'no_contentなstatusを返す' do
-        jdelete :destroy, {:id => theme.to_param}, valid_session
-        expect(response).to have_http_status :no_content
+      context 'themeがeditableでないとき' do
+        before{ jdelete :destroy, {:id => other_theme.to_param}, valid_session }
+        its(:response){ is_expected.to have_http_status :forbidden }
       end
     end
 
