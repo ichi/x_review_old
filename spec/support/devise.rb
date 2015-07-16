@@ -16,6 +16,7 @@ module Devise
       before(:each) do
         u = current_user rescue create(:user)
         login_as u, scope: :user, :run_callbacks => false
+        allow_any_instance_of(ApplicationController).to receive(:current_user){ u }
       end
     end
   end
@@ -24,5 +25,7 @@ end
 RSpec.configure do |config|
   config.include Devise::TestHelpers, :type => :controller
   config.extend  Devise::ControllerMacros, :type => :controller
+
+  config.include Warden::Test::Helpers, :type => :request
   config.extend  Devise::RequestMacros, :type => :request
 end

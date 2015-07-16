@@ -1,4 +1,4 @@
-class Api::User::GroupsController < ApplicationController
+class Api::User::GroupsController < Api::ApplicationController
   before_action :authenticate_user!
   before_action :set_group, only: %i(show)
 

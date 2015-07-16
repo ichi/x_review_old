@@ -24,3 +24,6 @@
 
 # node
 /npm-debug.log
+
+# doc（とりあえず今は）
+/doc
