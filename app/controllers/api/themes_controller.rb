@@ -9,10 +9,20 @@ class Api::ThemesController < Api::ApplicationController
   end
 
   # GET /api/themes/1
+  validates :show do
+    integer :id, required: true
+  end
   def show
   end
 
   # POST /api/themes
+  validates :create do
+    object :theme, required: true do
+      string :name, strong: true
+      boolean :private, strong: true
+      integer :group_id, strong: true
+    end
+  end
   def create
     @theme = Theme.new(theme_params.merge creator: current_user)
 
@@ -24,6 +34,14 @@ class Api::ThemesController < Api::ApplicationController
   end
 
   # PATCH/PUT /api/themes/1
+  validates :update do
+    integer :id, required: true
+    object :theme, required: true do
+      string :name, strong: true
+      boolean :private, strong: true
+      integer :group_id, strong: true
+    end
+  end
   def update
     if @theme.update(theme_params)
       render :show, status: :ok
@@ -33,6 +51,9 @@ class Api::ThemesController < Api::ApplicationController
   end
 
   # DELETE /api/themes/1
+  validates :destroy do
+    integer :id, required: true
+  end
   def destroy
     @theme.destroy
     head :no_content
@@ -46,7 +67,7 @@ class Api::ThemesController < Api::ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def theme_params
-      params.require(:theme).permit(:name, :private, :group_id)
+      permitted_params[:theme]
     end
 
     def check_editable

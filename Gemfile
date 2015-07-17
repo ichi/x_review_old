@@ -23,6 +23,8 @@ gem 'annotate', github: 'ctran/annotate_models'
 gem 'devise'
 gem 'omniauth-twitter'
 
+# API
+gem 'weak_parameters'
 
 # Server
 gem 'thin'

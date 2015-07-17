@@ -92,7 +92,7 @@ RSpec.describe "Api/Themes", :type => :request do
         end
       end
 
-      context 'invalid params' do
+      context 'invalid params (validate with model)' do
         before{ jpost api_themes_path, theme: invalid_attributes }
 
         it{ is_expected.to_not be_success }
@@ -101,6 +101,19 @@ RSpec.describe "Api/Themes", :type => :request do
         it 'エラーのjsonを返す' do
           expect(response.body).to be_json_as({
             name: Array
+          })
+        end
+      end
+
+      context 'invalid params (validate with weak_parameters)' do
+        before{ jpost api_themes_path, {invalid: true} }
+
+        it{ is_expected.to_not be_success }
+        it{ is_expected.to have_http_status(:bad_request) }
+
+        it 'エラーのjsonを返す' do
+          expect(response.body).to be_json_as({
+            error: String
           })
         end
       end
@@ -159,6 +172,19 @@ RSpec.describe "Api/Themes", :type => :request do
           it 'エラーのjsonを返す' do
             expect(response.body).to be_json_as({
               name: Array
+            })
+          end
+        end
+
+        context 'invalid params (validate with weak_parameters)' do
+          before{ jpatch api_theme_path(theme), {invalid: true} }
+
+          it{ is_expected.to_not be_success }
+          it{ is_expected.to have_http_status(:bad_request) }
+
+          it 'エラーのjsonを返す' do
+            expect(response.body).to be_json_as({
+              error: String
             })
           end
         end
