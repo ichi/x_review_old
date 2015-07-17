@@ -37,8 +37,7 @@ RSpec.describe Api::ThemesController, :type => :controller do
 
         it "assigns a newly created theme as @theme" do
           jpost :create, {:theme => valid_attributes}, valid_session
-          expect(assigns(:theme)).to be_a(Theme)
-          expect(assigns(:theme)).to be_persisted
+          expect(assigns(:theme)).to be_a(Theme).and be_persisted
         end
 
         it "createdなstatusを返す" do

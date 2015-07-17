@@ -18,21 +18,14 @@ Rails.application.routes.draw do
   resources :users
 
   namespace :api, format: :json do
-    resources :themes, only: %i(index show create update destroy)
-
-    # 自分の
-    resource :user, only: %i() do
-      resources :groups, only: %i(index show), controller: 'user/groups'
+    resources :themes, only: %i(index show create update destroy) do
+      resources :items, only: %i(index show create update destroy), shallow: true
     end
 
-    #
-    # resources :themes do
-    #   resources :items, shallow: true do
-    #     resources :reviews
-    #   end
-    # end
-    #
-    # resources :users
+    # 自分の
+    resource :user, only: [] do
+      resources :groups, only: %i(index show), controller: 'user/groups'
+    end
   end
 
   root to: 'pages#root'
