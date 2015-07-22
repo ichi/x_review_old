@@ -20,6 +20,4 @@ class Review < ActiveRecord::Base
   validates :score,
     presence: true,
     inclusion: {in: 1..10}
-  validates :text,
-    presence: true
 end

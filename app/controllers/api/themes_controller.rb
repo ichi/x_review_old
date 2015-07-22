@@ -18,7 +18,7 @@ class Api::ThemesController < Api::ApplicationController
   # POST /api/themes
   validates :create do
     object :theme, required: true do
-      string :name, strong: true
+      string :name, strong: true, required: true
       boolean :private, strong: true
       integer :group_id, strong: true
     end

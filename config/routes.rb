@@ -19,7 +19,9 @@ Rails.application.routes.draw do
 
   namespace :api, format: :json do
     resources :themes, only: %i(index show create update destroy) do
-      resources :items, only: %i(index show create update destroy), shallow: true
+      resources :items, only: %i(index show create update destroy), shallow: true do
+        resources :reviews, only: %i(index show create update destroy), shallow: true
+      end
     end
 
     # 自分の
