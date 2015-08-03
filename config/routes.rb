@@ -26,7 +26,9 @@ Rails.application.routes.draw do
 
     # 自分の
     resource :account, only: [] do
-      # resources :groups, only: %i(index show), controller: 'account/groups'
+      scope module: 'account' do
+        resources :groups, only: %i(index)
+      end
     end
   end
 
