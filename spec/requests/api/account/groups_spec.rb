@@ -25,7 +25,8 @@ RSpec.describe "Api/Account/Groups", :type => :request do
       it "自分のグループ一覧を取得する", autodoc: true do
         expect(response.body).to be_json_as([
           jsonize(group.attributes.merge(
-            {} # TODO: urlとか追加するかも
+            editable: false,
+            url: api_group_path(group)
           )),
         ])
       end

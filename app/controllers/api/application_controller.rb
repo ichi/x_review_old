@@ -5,6 +5,8 @@ class Api::ApplicationController < ApplicationController
     bad_request(exception.message)
   end
 
+  private
+
   # @override Devise::Controllers::Helpers#:authenticate_user!
   def authenticate_user!
     forbidden unless current_user

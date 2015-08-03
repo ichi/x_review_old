@@ -19,6 +19,12 @@ class Group < ActiveRecord::Base
     presence: true
 
   def role_of(user)
-    groups_users.find_by(user: user).role
+    groups_users.find_by(user: user).try(:role)
+  end
+
+  def editable?(user)
+    return false unless user
+    return false unless role = role_of(user)
+    role.admin?
   end
 end

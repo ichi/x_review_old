@@ -19,19 +19,43 @@ RSpec.describe Group, :type => :model do
     end
   end
 
-  describe '#role_of' do
+  describe 'instance methods' do
     let(:user){ create(:user) }
     let(:admin){ create(:user) }
     let(:group){ create(:group,
       groups_users: [ create(:groups_user, user: user, role: Role::USER),
                       create(:groups_user, user: admin, role: Role::ADMIN)]) }
 
-    it 'userのroleはuser' do
-      expect(group.role_of(user)).to be_user
+    describe '#role_of' do
+      subject{ group.role_of(arg) }
+
+      context '対象がuserのとき' do
+        let(:arg){ user }
+
+        it{ is_expected.to be_user }
+      end
+
+      context '対象がadminのとき' do
+        let(:arg){ admin }
+
+        it{ is_expected.to be_admin }
+      end
     end
 
-    it 'adminのroleはadmin' do
-      expect(group.role_of(admin)).to be_admin
+    describe '#editable?' do
+      subject{ group.editable?(arg) }
+
+      context '対象がuserのとき' do
+        let(:arg){ user }
+
+        it{ is_expected.to eq false }
+      end
+
+      context '対象がadminのとき' do
+        let(:arg){ admin }
+
+        it{ is_expected.to eq true }
+      end
     end
   end
 end

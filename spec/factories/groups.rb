@@ -14,11 +14,15 @@ FactoryGirl.define do
 
     transient do
       with_users []
+      with_admins []
     end
 
     after(:create) do |group, ev|
       ev.with_users.each do |user|
-        create(:groups_user, user: user, group: group)
+        create(:groups_user, user: user, group: group, role: Role::USER)
+      end
+      ev.with_admins.each do |user|
+        create(:groups_user, user: user, group: group, role: Role::ADMIN)
       end
     end
   end

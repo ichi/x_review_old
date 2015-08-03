@@ -24,6 +24,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :groups, only: %i(index show create update destroy)
+
     # 自分の
     resource :account, only: [] do
       scope module: 'account' do
