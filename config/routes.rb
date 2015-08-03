@@ -25,8 +25,8 @@ Rails.application.routes.draw do
     end
 
     # 自分の
-    resource :user, only: [] do
-      resources :groups, only: %i(index show), controller: 'user/groups'
+    resource :account, only: [] do
+      # resources :groups, only: %i(index show), controller: 'account/groups'
     end
   end
 
