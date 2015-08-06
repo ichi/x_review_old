@@ -47,7 +47,7 @@ RSpec.describe Api::GroupsController, :type => :controller do
 
         it '@group.usersにcurrent_userがadminとして入ってる' do
           expect(assigns(:group).users).to include current_user
-          expect(assigns(:group).role_of(current_user)).to eq Role::ADMIN
+          expect(assigns(:group).role_of(current_user)).to eq 'admin'
         end
 
         its(:response){ is_expected.to have_http_status :created }

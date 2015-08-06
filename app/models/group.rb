@@ -18,13 +18,17 @@ class Group < ActiveRecord::Base
   validates :name,
     presence: true
 
+  def group_user(user)
+    groups_users.find_by(user: user)
+  end
+
   def role_of(user)
-    groups_users.find_by(user: user).try(:role)
+    group_user(user).try(:role)
   end
 
   def editable?(user)
     return false unless user
-    return false unless role = role_of(user)
-    role.admin?
+    return false unless g_user = group_user(user)
+    g_user.admin?
   end
 end

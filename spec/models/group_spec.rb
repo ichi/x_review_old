@@ -22,12 +22,10 @@ RSpec.describe Group, :type => :model do
   describe 'instance methods' do
     let(:user){ create(:user) }
     let(:admin){ create(:user) }
-    let(:group){ create(:group,
-      groups_users: [ create(:groups_user, user: user, role: Role::USER),
-                      create(:groups_user, user: admin, role: Role::ADMIN)]) }
+    let(:group){ create(:group, with_users: [user], with_admins: [admin]) }
 
-    describe '#role_of' do
-      subject{ group.role_of(arg) }
+    describe '#group_user' do
+      subject{ group.group_user(arg) }
 
       context '対象がuserのとき' do
         let(:arg){ user }
@@ -39,6 +37,22 @@ RSpec.describe Group, :type => :model do
         let(:arg){ admin }
 
         it{ is_expected.to be_admin }
+      end
+    end
+
+    describe '#role_of' do
+      subject{ group.role_of(arg) }
+
+      context '対象がuserのとき' do
+        let(:arg){ user }
+
+        it{ is_expected.to eq 'user' }
+      end
+
+      context '対象がadminのとき' do
+        let(:arg){ admin }
+
+        it{ is_expected.to eq 'admin' }
       end
     end
 

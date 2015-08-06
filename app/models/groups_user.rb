@@ -7,7 +7,7 @@
 #  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  role_id    :integer          default(1), not null
+#  role       :integer          default(1), not null
 #
 # Indexes
 #
@@ -16,9 +16,8 @@
 #
 
 class GroupsUser < ActiveRecord::Base
-  extend ActiveHash::Associations::ActiveRecordExtensions
+  enum role: {user: 1, admin: 2}
 
   belongs_to :group
   belongs_to :user
-  belongs_to_active_hash :role
 end

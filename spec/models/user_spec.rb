@@ -23,16 +23,14 @@ RSpec.describe User, :type => :model do
   describe '#role_on' do
     let(:user_role_group){ create(:group) }
     let(:admin_role_group){ create(:group) }
-    let(:user){ create(:user,
-      groups_users: [ create(:groups_user, group: user_role_group, role: Role::USER),
-                      create(:groups_user, group: admin_role_group, role: Role::ADMIN)]) }
+    let(:user){ create(:user, with_user_groups: [user_role_group], with_admin_groups: [admin_role_group]) }
 
     it 'user_role_groupでのroleはuser' do
-      expect(user.role_on(user_role_group)).to be_user
+      expect(user.role_on(user_role_group)).to eq 'user'
     end
 
     it 'admin_role_groupでのroleはadmin' do
-      expect(user.role_on(admin_role_group)).to be_admin
+      expect(user.role_on(admin_role_group)).to eq 'admin'
     end
   end
 end

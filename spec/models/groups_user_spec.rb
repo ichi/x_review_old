@@ -7,7 +7,7 @@
 #  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  role_id    :integer          default(1), not null
+#  role       :integer          default(1), not null
 #
 # Indexes
 #
@@ -20,5 +20,6 @@ require 'rails_helper'
 RSpec.describe GroupsUser, :type => :model do
   it{ is_expected.to belong_to(:user) }
   it{ is_expected.to belong_to(:group) }
-  it{ is_expected.to belong_to(:role) }
+
+  it{ is_expected.to define_enum_for(:role).with(user: 1, admin: 2) }
 end

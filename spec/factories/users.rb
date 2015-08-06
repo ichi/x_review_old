@@ -17,5 +17,19 @@
 FactoryGirl.define do
   factory :user do
     name { Faker::Name.name }
+
+    transient do
+      with_user_groups []
+      with_admin_groups []
+    end
+
+    after(:create) do |user, ev|
+      ev.with_user_groups.each do |group|
+        create(:groups_user, user: user, group: group, role: :user)
+      end
+      ev.with_admin_groups.each do |group|
+        create(:groups_user, user: user, group: group, role: :admin)
+      end
+    end
   end
 end

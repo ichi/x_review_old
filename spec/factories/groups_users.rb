@@ -7,7 +7,7 @@
 #  user_id    :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  role_id    :integer          default(1), not null
+#  role       :integer          default(1), not null
 #
 # Indexes
 #
@@ -19,6 +19,6 @@ FactoryGirl.define do
   factory :groups_user do
     group
     user
-    role_id { Role.all.sample.id }
+    role { GroupsUser.roles.sample }
   end
 end

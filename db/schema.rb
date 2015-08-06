@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150222163924) do
+ActiveRecord::Schema.define(version: 20150806101027) do
 
   create_table "authorizations", force: :cascade do |t|
     t.string   "provider",   null: false
@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20150222163924) do
     t.integer  "user_id"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
-    t.integer  "role_id",    default: 1, null: false
+    t.integer  "role",       default: 1, null: false
   end
 
   add_index "groups_users", ["group_id"], name: "index_groups_users_on_group_id"

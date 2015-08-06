@@ -19,10 +19,10 @@ FactoryGirl.define do
 
     after(:create) do |group, ev|
       ev.with_users.each do |user|
-        create(:groups_user, user: user, group: group, role: Role::USER)
+        create(:groups_user, user: user, group: group, role: :user)
       end
       ev.with_admins.each do |user|
-        create(:groups_user, user: user, group: group, role: Role::ADMIN)
+        create(:groups_user, user: user, group: group, role: :admin)
       end
     end
   end

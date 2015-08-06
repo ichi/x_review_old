@@ -23,7 +23,7 @@ class Api::GroupsController < Api::ApplicationController
   end
   def create
     @group = Group.new(group_params)
-    @group.groups_users << GroupsUser.new(user: current_user, role: Role::ADMIN)
+    @group.groups_users << GroupsUser.new(user: current_user, role: :admin)
 
     if @group.save
       render :show, status: :created
